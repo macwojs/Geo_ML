@@ -211,17 +211,22 @@ with st.sidebar:
     st.caption("Data Scientist · AI/ML Engineer")
 
     st.divider()
-    st.markdown("🔗 [GitHub Repository](https://github.com/macwojs)")  # TODO: link to repo
-    st.markdown("📄 [Download CV (PDF)](#)")                           # TODO: link to CV
+    st.markdown("🔗 [GitHub Repository](https://github.com/macwojs/Geo_ML)")
     st.markdown("💼 [LinkedIn](https://linkedin.com/in/maciej-nikiel)")
 
     st.divider()
-    st.markdown("### Tech Stack")
+    st.markdown("### Application Tech Stack")
     st.markdown("""
     `Python` · `scikit-learn` · `NumPy`  
     `Pandas` · `Plotly` · `PyVista`  
     `Streamlit` · `SMOTE` · `joblib`
     """)
+
+    st.divider()
+    st.markdown("### About Me")
+    st.caption(
+        "Python developer with a strong foundation in data science, numerical modeling, and machine learning. PhD candidate at AGH building data pipelines for hydrological model coupling (MODFLOW, SWAT) using NumPy, Pandas, SciPy, and GeoPandas. Commercially developed ML classification models (scikit‑learn) and production REST APIs processing complex structured data. BSc in Applied Computer Science with 4+ years of software engineering experience. Fast learner eager to grow in AI/ML, cloud platforms, and advanced data engineering."
+    )
 
     st.divider()
     st.caption("© 2026 Maciej Nikiel")
@@ -298,12 +303,12 @@ with tab1:
     col_left, col_right = st.columns(2)
     with col_left:
         st.markdown("**Well Locations**")
-        st.dataframe(load_well_locations().head(8), use_container_width=True, hide_index=True)
+        st.dataframe(load_well_locations().head(8), width='stretch', hide_index=True)
     with col_right:
         st.markdown("**Lithology Profiles**")
         st.dataframe(
             load_well_profiles()[["well_id", "depth_top", "depth_bot", "lito_name"]].sort_values(['well_id', 'depth_top']).head(8),
-            use_container_width=True, hide_index=True,
+            width='stretch', hide_index=True,
         )
 
 
@@ -334,7 +339,7 @@ with tab2:
             plot_bgcolor="rgba(15,20,25,0.6)",
             yaxis_scaleanchor="x",
         )
-        st.plotly_chart(fig_map, use_container_width=True)
+        st.plotly_chart(fig_map, width='stretch')
 
     with col_bar:
         st.subheader("Model Class Distribution")
@@ -354,7 +359,7 @@ with tab2:
             plot_bgcolor="rgba(15,20,25,0.6)",
             showlegend=False,
         )
-        st.plotly_chart(fig_bar, use_container_width=True)
+        st.plotly_chart(fig_bar, width='stretch')
 
         st.info(
             "⚠️ **Class imbalance detected** — Loam layers dominate the dataset. "
@@ -400,7 +405,7 @@ with tab2:
             legend_title="Model Class",
             yaxis_title="",
         )
-        st.plotly_chart(fig_raw, use_container_width=True)
+        st.plotly_chart(fig_raw, width='stretch')
 
     with col_sankey:
         # Sankey diagram: raw types → model classes
@@ -442,7 +447,7 @@ with tab2:
             paper_bgcolor="rgba(0,0,0,0)",
             font=dict(size=11, color="#e1e8f0"),
         )
-        st.plotly_chart(fig_sankey, use_container_width=True)
+        st.plotly_chart(fig_sankey, width='stretch')
 
     st.divider()
 
@@ -500,7 +505,7 @@ with tab2:
             title=f"Borehole {selected_well} — Lithological Profile",
             margin=dict(l=60, r=20, t=60, b=30),
         )
-    st.plotly_chart(fig_profile, use_container_width=True)
+    st.plotly_chart(fig_profile, width='stretch')
 
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -542,7 +547,7 @@ with tab3:
         yaxis=dict(range=[0, 1.05], tickformat=".0%"),
         legend=dict(orientation="h", y=1.12),
     )
-    st.plotly_chart(fig_exp, use_container_width=True)
+    st.plotly_chart(fig_exp, width='stretch')
 
     # Notes per experiment
     for _, row in exp.iterrows():
@@ -570,7 +575,7 @@ with tab3:
             template="plotly_dark",
             paper_bgcolor="rgba(0,0,0,0)",
         )
-        st.plotly_chart(fig_cm, use_container_width=True)
+        st.plotly_chart(fig_cm, width='stretch')
 
     with col_rpt:
         st.subheader("Per-Class Metrics")
@@ -582,7 +587,7 @@ with tab3:
                 "F1-score":  "{:.2f}",
                 "Support":   "{:,}",
             }).background_gradient(subset=["F1-score"], cmap="Blues"),
-            use_container_width=True,
+            width='stretch',
             hide_index=True,
         )
 
@@ -644,7 +649,7 @@ with tab4:
         plot_bgcolor="rgba(15,20,25,0.6)",
         yaxis_scaleanchor="x",
     )
-    st.plotly_chart(fig_slice, use_container_width=True)
+    st.plotly_chart(fig_slice, width='stretch')
 
     st.divider()
 
@@ -698,7 +703,7 @@ with tab4:
             ),
         ),
     )
-    st.plotly_chart(fig_3d, use_container_width=True)
+    st.plotly_chart(fig_3d, width='stretch')
 
     st.divider()
 
@@ -715,7 +720,7 @@ with tab4:
         pred_z = st.number_input("Elevation (m a.s.l.)", value=180.0, step=1.0, format="%.1f")
     with pc4:
         st.markdown("<br>", unsafe_allow_html=True)
-        if st.button("🔍 Predict", use_container_width=True):
+        if st.button("🔍 Predict", width='stretch'):
             try:
                 model_data = joblib.load('AppData/neuralModel.joblib')
                 clf = model_data['clf']
@@ -758,5 +763,5 @@ with tab4:
 st.divider()
 st.caption(
     "Built with Streamlit & Plotly · Model: scikit-learn MLPClassifier · "
-    "[Source code on GitHub](https://github.com/macwojs) · Maciej Nikiel, 2026"
+    "[Source code on GitHub](https://github.com/macwojs/Geo_ML) · Maciej Nikiel, 2026"
 )
